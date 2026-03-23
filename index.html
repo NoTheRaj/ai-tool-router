@@ -8,22 +8,23 @@
   </head>
   <body>
 
-    <!-- TOP BAR: always visible, holds app name and future auth controls -->
+    <!-- TOP BAR -->
+    <!-- app-name is clickable — resets to landing when in result mode -->
     <header class="top-bar">
-      <span class="app-name">AI Tool Router</span>
+      <span class="app-name" id="app-name">AI Tool Router</span>
       <div class="top-bar-actions">
-        <!-- In Milestone 4 this button will trigger real mock auth -->
+        <!-- btn-new is hidden by default, only shows in result mode via CSS -->
+        <button class="btn-ghost" id="btn-new">New</button>
         <button class="btn-ghost">Log in</button>
       </div>
     </header>
 
-    <!-- MAIN CONTENT: vertically centers the composer on landing -->
+    <!-- MAIN CONTENT AREA -->
     <main class="main-content">
 
-      <!-- COMPOSER: the core input UI the user sees on first load -->
-      <section class="composer">
+      <!-- LANDING COMPOSER: visible on load, hidden in result mode -->
+      <section class="composer" id="composer-landing">
 
-        <!-- TOOL SELECTOR: pill buttons, one active at a time -->
         <div class="tool-selector" role="group" aria-label="Select a tool">
           <button class="tool-chip active">Summarize</button>
           <button class="tool-chip">Explain</button>
@@ -31,23 +32,53 @@
           <button class="tool-chip">Rewrite</button>
         </div>
 
-        <!-- INPUT: where the user pastes their text -->
         <textarea
           class="input-area"
+          id="input-landing"
           placeholder="Paste your text here..."
           rows="8"
         ></textarea>
 
-        <!-- FOOTER: Go button, right-aligned -->
         <div class="composer-footer">
-          <button class="btn-primary">Go</button>
+          <button class="btn-primary" id="btn-go-landing">Go</button>
         </div>
+
+      </section>
+
+      <!-- OUTPUT AREA: hidden by default, visible in result mode -->
+      <section class="output-area" id="output-area">
+
+        <!-- Shows which tool was used, e.g. "Summary" or "Explanation" -->
+        <div class="output-header">
+          <span class="output-label" id="output-label">Summary</span>
+        </div>
+
+        <!-- The actual mock/real AI response goes here -->
+        <div class="output-content" id="output-content"></div>
 
       </section>
 
     </main>
 
-    <!-- script.js loaded last so HTML is ready before JS runs -->
+    <!-- BOTTOM DOCK: hidden by default, visible in result mode -->
+    <!-- Sticks to the bottom of the viewport as the output scrolls -->
+    <div class="bottom-dock" id="bottom-dock">
+      <div class="dock-inner">
+
+        <textarea
+          class="input-area dock-input"
+          id="input-dock"
+          placeholder="Follow up or paste new text..."
+          rows="3"
+        ></textarea>
+
+        <div class="composer-footer">
+          <button class="btn-primary" id="btn-go-dock">Go</button>
+        </div>
+
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>

@@ -1,40 +1,34 @@
 /* ============================================================
    CSS VARIABLES
-   All colors, fonts, and sizes live here.
-   Change one value here and it updates everywhere.
    ============================================================ */
 :root {
-  --bg-primary:     #111113;        /* main page background */
-  --bg-secondary:   #1a1a1f;        /* textarea background */
-  --bg-surface:     #222228;        /* chip background */
-  --border-color:   #2e2e36;        /* all borders */
-  --text-primary:   #e8e8ed;        /* main readable text */
-  --text-secondary: #8a8a9a;        /* muted labels and placeholders */
-  --accent:         #4a8fcb;        /* blue accent — active states, Go button */
-  --accent-hover:   #5a9fdb;        /* lighter blue on hover */
-  --accent-muted:   rgba(74, 143, 203, 0.12); /* faint blue chip background */
+  --bg-primary:     #111113;
+  --bg-secondary:   #1a1a1f;
+  --bg-surface:     #222228;
+  --border-color:   #2e2e36;
+  --text-primary:   #e8e8ed;
+  --text-secondary: #8a8a9a;
+  --accent:         #4a8fcb;
+  --accent-hover:   #5a9fdb;
+  --accent-muted:   rgba(74, 143, 203, 0.12);
   --font-sans:      'Inter', system-ui, -apple-system, sans-serif;
   --radius-sm:      6px;
   --radius-md:      10px;
-  --radius-pill:    999px;          /* makes any element fully rounded */
+  --radius-pill:    999px;
   --transition:     0.15s ease;
 }
 
 /* ============================================================
    RESET
-   Browsers add their own spacing and sizing by default.
-   This zeroes it out so we start from scratch.
    ============================================================ */
 *, *::before, *::after {
-  box-sizing: border-box; /* padding doesn't add to element width */
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 /* ============================================================
    BASE BODY
-   Dark background, readable text, full height so the
-   main content can vertically center correctly.
    ============================================================ */
 body {
   background-color: var(--bg-primary);
@@ -42,14 +36,13 @@ body {
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
-  min-height: 100vh;        /* full viewport height */
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;   /* stacks top-bar above main-content */
+  flex-direction: column;
 }
 
 /* ============================================================
    TOP BAR
-   Sticky so it stays visible when result content is long later.
    ============================================================ */
 .top-bar {
   display: flex;
@@ -61,16 +54,34 @@ body {
   background-color: var(--bg-primary);
   position: sticky;
   top: 0;
-  z-index: 10; /* stays above scrolling content */
+  z-index: 10;
 }
 
+/* cursor: pointer always so it feels clickable in result mode */
 .app-name {
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: color var(--transition);
 }
 
-/* Ghost button: no fill, just a border. Used for low-priority actions. */
+.app-name:hover {
+  color: var(--text-secondary);
+}
+
+.top-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* btn-new is hidden by default.
+   body.result-mode makes it visible — see result mode section below */
+#btn-new {
+  display: none;
+}
+
 .btn-ghost {
   background: none;
   border: 1px solid var(--border-color);
@@ -89,34 +100,30 @@ body {
 }
 
 /* ============================================================
-   MAIN CONTENT
-   flex: 1 makes it stretch to fill remaining vertical space.
-   That lets align-items: center vertically center the composer.
+   MAIN CONTENT — LANDING STATE
+   Centers the composer vertically and horizontally
    ============================================================ */
 .main-content {
   flex: 1;
   display: flex;
-  align-items: center;      /* vertical centering */
-  justify-content: center;  /* horizontal centering */
+  align-items: center;
+  justify-content: center;
   padding: 40px 24px;
 }
 
 /* ============================================================
-   COMPOSER
-   The main card that holds the tool selector, textarea, and button.
-   max-width keeps it readable on wide screens.
+   COMPOSER (landing)
    ============================================================ */
 .composer {
   width: 100%;
   max-width: 680px;
   display: flex;
   flex-direction: column;
-  gap: 16px; /* even space between chips, textarea, and footer */
+  gap: 16px;
 }
 
 /* ============================================================
-   TOOL SELECTOR (Chips)
-   flex-wrap: wrap lets chips drop to a second line on small screens.
+   TOOL CHIPS
    ============================================================ */
 .tool-selector {
   display: flex;
@@ -141,8 +148,6 @@ body {
   border-color: var(--text-secondary);
 }
 
-/* .active is added by JS in Milestone 2.
-   For now it's hardcoded on the first chip in HTML just to show the style. */
 .tool-chip.active {
   background: var(--accent-muted);
   border-color: var(--accent);
@@ -150,10 +155,7 @@ body {
 }
 
 /* ============================================================
-   TEXTAREA
-   resize: vertical lets user drag it taller, not sideways.
-   outline: none removes the default ugly blue browser ring —
-   we replace it with a border-color change on focus.
+   TEXTAREA (shared by landing and dock)
    ============================================================ */
 .input-area {
   width: 100%;
@@ -174,14 +176,12 @@ body {
   color: var(--text-secondary);
 }
 
-/* Accent border glow on focus — replaces browser default outline */
 .input-area:focus {
   border-color: var(--accent);
 }
 
 /* ============================================================
    COMPOSER FOOTER + GO BUTTON
-   justify-content: flex-end pushes the button to the right.
    ============================================================ */
 .composer-footer {
   display: flex;
@@ -203,4 +203,101 @@ body {
 
 .btn-primary:hover {
   background: var(--accent-hover);
+}
+
+/* ============================================================
+   OUTPUT AREA
+   Hidden by default. body.result-mode makes it visible.
+   ============================================================ */
+.output-area {
+  display: none; /* hidden in landing state */
+  width: 100%;
+  max-width: 680px;
+}
+
+.output-header {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* The label that shows which tool ran, e.g. "Summary" */
+.output-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+/* white-space: pre-wrap preserves line breaks in the mock text */
+.output-content {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+}
+
+/* ============================================================
+   BOTTOM DOCK
+   Hidden by default. body.result-mode makes it visible.
+   sticky bottom: 0 keeps it pinned while output scrolls above.
+   ============================================================ */
+.bottom-dock {
+  display: none; /* hidden in landing state */
+  position: sticky;
+  bottom: 0;
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
+  padding: 16px 24px;
+  z-index: 10;
+}
+
+/* dock-inner constrains the dock content to the same width as output */
+.dock-inner {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* dock textarea is shorter than the landing textarea */
+.dock-input {
+  resize: none; /* no resize in the dock — keeps the bottom area stable */
+}
+
+/* ============================================================
+   RESULT MODE OVERRIDES
+   When body has the class result-mode, these rules activate.
+   This is the only mechanism driving all state changes.
+   ============================================================ */
+
+/* Stop centering — output should start from the top */
+body.result-mode .main-content {
+  align-items: flex-start;
+  justify-content: center;
+  padding-bottom: 0; /* dock handles bottom spacing */
+}
+
+/* Hide the landing composer */
+body.result-mode #composer-landing {
+  display: none;
+}
+
+/* Show the output area */
+body.result-mode .output-area {
+  display: block;
+}
+
+/* Show the bottom dock */
+body.result-mode .bottom-dock {
+  display: block;
+}
+
+/* Show the New button in the top bar */
+body.result-mode #btn-new {
+  display: inline-flex;
+  align-items: center;
 }
