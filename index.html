@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Tool Router</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <!-- TOP BAR: always visible, holds app name and future auth controls -->
+    <header class="top-bar">
+      <span class="app-name">AI Tool Router</span>
+      <div class="top-bar-actions">
+        <!-- In Milestone 4 this button will trigger real mock auth -->
+        <button class="btn-ghost">Log in</button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT: vertically centers the composer on landing -->
+    <main class="main-content">
+
+      <!-- COMPOSER: the core input UI the user sees on first load -->
+      <section class="composer">
+
+        <!-- TOOL SELECTOR: pill buttons, one active at a time -->
+        <div class="tool-selector" role="group" aria-label="Select a tool">
+          <button class="tool-chip active">Summarize</button>
+          <button class="tool-chip">Explain</button>
+          <button class="tool-chip">Quiz</button>
+          <button class="tool-chip">Rewrite</button>
+        </div>
+
+        <!-- INPUT: where the user pastes their text -->
+        <textarea
+          class="input-area"
+          placeholder="Paste your text here..."
+          rows="8"
+        ></textarea>
+
+        <!-- FOOTER: Go button, right-aligned -->
+        <div class="composer-footer">
+          <button class="btn-primary">Go</button>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- script.js loaded last so HTML is ready before JS runs -->
+    <script src="script.js"></script>
+  </body>
+</html>

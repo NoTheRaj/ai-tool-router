@@ -1,0 +1,206 @@
+/* ============================================================
+   CSS VARIABLES
+   All colors, fonts, and sizes live here.
+   Change one value here and it updates everywhere.
+   ============================================================ */
+:root {
+  --bg-primary:     #111113;        /* main page background */
+  --bg-secondary:   #1a1a1f;        /* textarea background */
+  --bg-surface:     #222228;        /* chip background */
+  --border-color:   #2e2e36;        /* all borders */
+  --text-primary:   #e8e8ed;        /* main readable text */
+  --text-secondary: #8a8a9a;        /* muted labels and placeholders */
+  --accent:         #4a8fcb;        /* blue accent — active states, Go button */
+  --accent-hover:   #5a9fdb;        /* lighter blue on hover */
+  --accent-muted:   rgba(74, 143, 203, 0.12); /* faint blue chip background */
+  --font-sans:      'Inter', system-ui, -apple-system, sans-serif;
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-pill:    999px;          /* makes any element fully rounded */
+  --transition:     0.15s ease;
+}
+
+/* ============================================================
+   RESET
+   Browsers add their own spacing and sizing by default.
+   This zeroes it out so we start from scratch.
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box; /* padding doesn't add to element width */
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   BASE BODY
+   Dark background, readable text, full height so the
+   main content can vertically center correctly.
+   ============================================================ */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;        /* full viewport height */
+  display: flex;
+  flex-direction: column;   /* stacks top-bar above main-content */
+}
+
+/* ============================================================
+   TOP BAR
+   Sticky so it stays visible when result content is long later.
+   ============================================================ */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  position: sticky;
+  top: 0;
+  z-index: 10; /* stays above scrolling content */
+}
+
+.app-name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Ghost button: no fill, just a border. Used for low-priority actions. */
+.btn-ghost {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.btn-ghost:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   flex: 1 makes it stretch to fill remaining vertical space.
+   That lets align-items: center vertically center the composer.
+   ============================================================ */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;      /* vertical centering */
+  justify-content: center;  /* horizontal centering */
+  padding: 40px 24px;
+}
+
+/* ============================================================
+   COMPOSER
+   The main card that holds the tool selector, textarea, and button.
+   max-width keeps it readable on wide screens.
+   ============================================================ */
+.composer {
+  width: 100%;
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* even space between chips, textarea, and footer */
+}
+
+/* ============================================================
+   TOOL SELECTOR (Chips)
+   flex-wrap: wrap lets chips drop to a second line on small screens.
+   ============================================================ */
+.tool-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tool-chip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.tool-chip:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+/* .active is added by JS in Milestone 2.
+   For now it's hardcoded on the first chip in HTML just to show the style. */
+.tool-chip.active {
+  background: var(--accent-muted);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ============================================================
+   TEXTAREA
+   resize: vertical lets user drag it taller, not sideways.
+   outline: none removes the default ugly blue browser ring —
+   we replace it with a border-color change on focus.
+   ============================================================ */
+.input-area {
+  width: 100%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 16px;
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.input-area::placeholder {
+  color: var(--text-secondary);
+}
+
+/* Accent border glow on focus — replaces browser default outline */
+.input-area:focus {
+  border-color: var(--accent);
+}
+
+/* ============================================================
+   COMPOSER FOOTER + GO BUTTON
+   justify-content: flex-end pushes the button to the right.
+   ============================================================ */
+.composer-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  padding: 10px 28px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
